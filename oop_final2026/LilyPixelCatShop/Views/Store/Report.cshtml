@@ -1,0 +1,66 @@
+﻿@model global::Store.Models.Store
+
+<h1>Store Reports</h1>
+
+<div class="report-grid">
+    <div class="report-card">
+        <h2>Cash Register</h2>
+        <p>$@Model.GetCashRegister()</p>
+    </div>
+
+    <div class="report-card">
+        <h2>Total Orders</h2>
+        <p>@Model.GetOrders().Count</p>
+    </div>
+
+    <div class="report-card">
+        <h2>Most Expensive Product</h2>
+        <p>
+            @Model.GetMostExpensiveProduct()?.Name
+            - $@Model.GetMostExpensiveProduct()?.Price
+        </p>
+    </div>
+
+    <div class="report-card">
+        <h2>Cheapest Product</h2>
+        <p>
+            @Model.GetCheapestProduct()?.Name
+            - $@Model.GetCheapestProduct()?.Price
+        </p>
+    </div>
+
+    <div class="report-card">
+        <h2>Total Hats</h2>
+        <p>@Model.GetQuantityByCategory("Hat")</p>
+    </div>
+
+    <div class="report-card">
+        <h2>Total Dresses</h2>
+        <p>@Model.GetQuantityByCategory("Dress")</p>
+    </div>
+
+    <div class="report-card">
+        <h2>Total Accessories</h2>
+        <p>@Model.GetQuantityByCategory("Accessory")</p>
+    </div>
+
+    <div class="report-card">
+        <h2>Total Pants</h2>
+        <p>@Model.GetQuantityByCategory("Pants")</p>
+    </div>
+
+    <div class="report-card">
+        <h2>Total Hoodies</h2>
+        <p>@Model.GetQuantityByCategory("Hoodie")</p>
+    </div>
+
+    <div class="report-card">
+        <h2>Total Overalls</h2>
+        <p>@Model.GetQuantityByCategory("Overall")</p>
+    </div>
+
+    <div class="report-card">
+        <h2>Total Shirts</h2>
+        <p>@Model.GetQuantityByCategory("Shirt")</p>
+    </div>
+</div>

@@ -1,0 +1,96 @@
+﻿@model List<Product>
+
+<div class="home-container">
+    <h1>Lily Pixel Cat Shop</h1>
+
+    <div class="dress-lily-label">Dress Lily</div>
+
+    <div class="cat-section">
+        <img
+            id="lilyImage"
+            src="/images/LilyRegular.PNG"
+            alt="Lily"
+            class="lily-model" />
+    </div>
+
+    <div class="product-viewer">
+        <button type="button" onclick="previousProduct()">
+            Previous
+        </button>
+
+        <div id="productCard">
+            <h2 id="productName">
+                Loading...
+            </h2>
+
+            <img
+                id="productImage"
+                src=""
+                class="product-image" />
+
+            <p id="productPrice"></p>
+            <p id="productDescription"></p>
+        </div>
+
+        <button type="button" onclick="nextProduct()">
+            Next
+        </button>
+    </div>
+
+    <form asp-action="Buy" method="post">
+        <input type="hidden" id="selectedId" name="id" />
+        <button type="submit" class="buy-button">
+            Buy Now
+        </button>
+    </form>
+
+    @if (TempData["Message"] != null)
+    {
+        <div class="message-box">
+            @TempData["Message"]
+        </div>
+
+        @if (TempData["Message"]?.ToString() == "Purchase completed successfully!")
+        {
+            <script>
+                localStorage.setItem("catBought", "true");
+            </script>
+        }
+    }
+</div>
+
+<script>
+const products = [
+@for (int i = 0; i < Model.Count; i++)
+{
+    var productName = Model[i].Name ?? "";
+    var productImage = string.IsNullOrEmpty(Model[i].ImageName)
+        ? ""
+        : "/images/" + Model[i].ImageName;
+
+    var catImage = string.IsNullOrEmpty(Model[i].CatImageName)
+        ? "/images/LilyRegular.PNG"
+        : "/images/" + Model[i].CatImageName;
+
+    var description = Model[i] is CatClothing clothing
+        ? clothing.Description ?? ""
+        : "";
+
+<text>
+{
+    id: @Model[i].Id,
+    name: "@Html.Raw(productName.Replace("\"", "\\\""))",
+    price: @Model[i].Price,
+    image: "@productImage",
+    catImage: "@catImage",
+    description: "@Html.Raw(description.Replace("\"", "\\\""))"
+}
+</text>
+
+@if (i < Model.Count - 1)
+{
+<text>,</text>
+}
+}
+];
+</script>
