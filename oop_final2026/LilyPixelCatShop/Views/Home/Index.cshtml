@@ -50,6 +50,17 @@
             @TempData["Message"]
         </div>
 
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const messageBox = document.querySelector(".message-box");
+                if (messageBox) {
+                    setTimeout(function () {
+                        messageBox.remove();
+                    }, 4000);
+                }
+            });
+        </script>
+
         @if (TempData["Message"]?.ToString() == "Purchase completed successfully!")
         {
             <script>

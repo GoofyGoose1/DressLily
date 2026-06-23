@@ -85,4 +85,37 @@ document.addEventListener("DOMContentLoaded", function () {
             }, 1000);
         }
     }
+
+    const pageRoot = document.getElementById("pageRoot");
+    if (pageRoot) {
+        requestAnimationFrame(function () {
+            pageRoot.classList.add("page-transition-active");
+        });
+    }
+
+    document.body.addEventListener("click", function (event) {
+        const link = event.target.closest("a");
+        if (!link || link.target === "_blank" || link.hasAttribute("download")) {
+            return;
+        }
+
+        const hrefAttr = link.getAttribute("href") || link.href;
+        if (!hrefAttr || hrefAttr.startsWith("#") || hrefAttr.startsWith("javascript:")) {
+            return;
+        }
+
+        const absoluteHref = link.href;
+        if (absoluteHref.indexOf(window.location.origin) !== 0) {
+            return;
+        }
+
+        event.preventDefault();
+        if (pageRoot) {
+            pageRoot.classList.add("page-transition-exit");
+        }
+
+        setTimeout(function () {
+            window.location.href = hrefAttr;
+        }, 260);
+    }, true);
 });
