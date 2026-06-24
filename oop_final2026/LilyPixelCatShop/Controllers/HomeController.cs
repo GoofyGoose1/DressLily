@@ -12,6 +12,11 @@ namespace Store.Controllers
             return View(store.GetProducts());
         }
 
+        public IActionResult AboutLily()
+        {
+            return View();
+        }
+
         [HttpPost]
         public IActionResult Buy(int id)
         {
