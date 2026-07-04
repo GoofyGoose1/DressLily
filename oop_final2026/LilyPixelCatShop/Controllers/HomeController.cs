@@ -18,7 +18,7 @@ namespace Store.Controllers
         }
 
         [HttpPost]
-        public IActionResult Buy(int id)
+        public IActionResult Buy(int id, int scrollY = 0)
         {
             bool success = store.SellProduct(id);
 
@@ -27,7 +27,7 @@ namespace Store.Controllers
             else
                 TempData["Message"] = "This product is out of stock.";
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", scrollY > 0 ? new { scrollY } : null);
         }
 
         public static Store.Models.Store GetStore()

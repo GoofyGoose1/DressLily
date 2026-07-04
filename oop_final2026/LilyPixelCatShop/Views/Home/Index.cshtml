@@ -1,48 +1,99 @@
 ﻿@model List<Product>
 
 <div class="home-container">
-    <h1>Lily Pixel Cat Shop</h1>
+    <section class="home-hero reveal">
+        <div>
+            <span class="eyebrow">Pixel fashion atelier</span>
+            <h1>Lily Pixel Cat Shop</h1>
+            <p class="hero-copy">
+                Dress Lily in cozy handmade pixel outfits, browse every tiny look, and keep a sweet little store running in her honor.
+            </p>
+            <div class="dress-lily-label reveal reveal-delay-1">Dress Lily</div>
+        </div>
 
-    <div class="dress-lily-label">Dress Lily</div>
+    </section>
 
-    <div class="cat-section">
+    <div class="cat-section reveal-left reveal-delay-1">
+        <div class="painted-shape painted-heart"></div>
+        <div class="painted-shape painted-star"></div>
         <img
             id="lilyImage"
             src="/images/LilyRegular.PNG"
             alt="Lily"
             class="lily-model" />
+        <div class="preview-caption">
+            <span>Live fitting room</span>
+            <strong id="previewMood">Ready for a new look</strong>
+        </div>
     </div>
 
-    <div class="product-viewer">
-        <button type="button" onclick="previousProduct()">
-            Previous
-        </button>
+    <div class="home-shop-column reveal-right reveal-delay-2">
+        <div class="product-viewer">
+            <button type="button" onclick="previousProduct()" aria-label="Previous item">
+                Previous
+            </button>
 
-        <div id="productCard">
-            <h2 id="productName">
-                Loading...
-            </h2>
+            <div id="productCard">
+                <div class="product-counter" id="productCounter">01 / 01</div>
+                <h2 id="productName">
+                    Loading...
+                </h2>
 
-            <img
-                id="productImage"
-                src=""
-                class="product-image" />
+                <img
+                    id="productImage"
+                    src=""
+                    class="product-image"
+                    alt="" />
 
-            <p id="productPrice"></p>
-            <p id="productDescription"></p>
+                <p id="productPrice"></p>
+                <p id="productDescription"></p>
+
+                <div class="product-details">
+                    <span>Pixel fit preview</span>
+                    <span>Instant wardrobe update</span>
+                    <span>Lily approved</span>
+                </div>
+            </div>
+
+            <button type="button" onclick="nextProduct()" aria-label="Next item">
+                Next
+            </button>
         </div>
 
-        <button type="button" onclick="nextProduct()">
-            Next
-        </button>
+        <form asp-action="Buy" method="post">
+            <input type="hidden" id="selectedId" name="id" />
+            <button type="submit" class="buy-button">
+                Buy Now
+            </button>
+        </form>
     </div>
 
-    <form asp-action="Buy" method="post">
-        <input type="hidden" id="selectedId" name="id" />
-        <button type="submit" class="buy-button">
-            Buy Now
-        </button>
-    </form>
+    <section class="shop-story reveal reveal-delay-2">
+        <div>
+            <span class="eyebrow">How it works</span>
+            <h2>A tiny store with a bigger heart</h2>
+            <p>
+                Lily's store is built like a small dress-up studio: pick an item, watch her preview change, purchase from stock, and track the store through the report page.
+            </p>
+        </div>
+        <div class="story-steps">
+            <article>
+                <span>01</span>
+                <h3>Style</h3>
+                <p>Move through the wardrobe and find the outfit with the right mood.</p>
+            </article>
+            <article>
+                <span>02</span>
+                <h3>Preview</h3>
+                <p>The Lily model updates live so the product feels personal, not abstract.</p>
+            </article>
+            <article>
+                <span>03</span>
+                <h3>Manage</h3>
+                <p>Add custom pieces, restock favorites, and follow the shop totals.</p>
+            </article>
+        </div>
+    </section>
 
     @if (TempData["Message"] != null)
     {

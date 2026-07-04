@@ -49,8 +49,8 @@
 /Users/danieledri/Documents/GitHub/DressLily/oop_final2026/LilyPixelCatShop/obj/Debug/net10.0/rjsmrazor.dswa.cache.json
 /Users/danieledri/Documents/GitHub/DressLily/oop_final2026/LilyPixelCatShop/obj/Debug/net10.0/rjsmcshtml.dswa.cache.json
 /Users/danieledri/Documents/GitHub/DressLily/oop_final2026/LilyPixelCatShop/obj/Debug/net10.0/scopedcss/bundle/Store.styles.css
-/Users/danieledri/Documents/GitHub/DressLily/oop_final2026/LilyPixelCatShop/obj/Debug/net10.0/compressed/14mdgleyyd-{0}-a9ksao8gni-a9ksao8gni.gz
-/Users/danieledri/Documents/GitHub/DressLily/oop_final2026/LilyPixelCatShop/obj/Debug/net10.0/compressed/4gzz8gwt66-{0}-a2uu3j88dj-a2uu3j88dj.gz
+/Users/danieledri/Documents/GitHub/DressLily/oop_final2026/LilyPixelCatShop/obj/Debug/net10.0/compressed/14mdgleyyd-{0}-hshodqve10-hshodqve10.gz
+/Users/danieledri/Documents/GitHub/DressLily/oop_final2026/LilyPixelCatShop/obj/Debug/net10.0/compressed/4gzz8gwt66-{0}-88xe0j8a43-88xe0j8a43.gz
 /Users/danieledri/Documents/GitHub/DressLily/oop_final2026/LilyPixelCatShop/obj/Debug/net10.0/staticwebassets.build.json
 /Users/danieledri/Documents/GitHub/DressLily/oop_final2026/LilyPixelCatShop/obj/Debug/net10.0/staticwebassets.build.json.cache
 /Users/danieledri/Documents/GitHub/DressLily/oop_final2026/LilyPixelCatShop/obj/Debug/net10.0/staticwebassets.development.json

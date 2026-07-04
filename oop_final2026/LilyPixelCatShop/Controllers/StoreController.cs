@@ -17,7 +17,7 @@ namespace Store.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddProduct(string name, double price, int quantity, string category, string size, string description)
+        public IActionResult AddProduct(string name, double price, int quantity, string category, string size, string description, int scrollY = 0)
         {
             Store.Models.Store store = HomeController.GetStore();
 
@@ -41,18 +41,18 @@ namespace Store.Controllers
             else
             {
                 TempData["Message"] = "Invalid product category.";
-                return RedirectToAction("AddProduct");
+                return RedirectToAction("AddProduct", scrollY > 0 ? new { scrollY } : null);
             }
 
             product.IsDefaultProduct = false;
             store.AddProduct(product);
 
             TempData["Message"] = "Product added successfully!";
-            return RedirectToAction("Products");
+            return RedirectToAction("Products", scrollY > 0 ? new { scrollY } : null);
         }
 
         [HttpPost]
-        public IActionResult Buy(int id)
+        public IActionResult Buy(int id, int scrollY = 0)
         {
             Store.Models.Store store = HomeController.GetStore();
             bool success = store.SellProduct(id);
@@ -61,11 +61,11 @@ namespace Store.Controllers
                 ? "Purchase completed successfully!"
                 : "This product is out of stock.";
 
-            return RedirectToAction("Products");
+            return RedirectToAction("Products", scrollY > 0 ? new { scrollY } : null);
         }
 
         [HttpPost]
-        public IActionResult AddStock(int id, int amount)
+        public IActionResult AddStock(int id, int amount, int scrollY = 0)
         {
             Store.Models.Store store = HomeController.GetStore();
             bool success = store.AddStock(id, amount);
@@ -74,11 +74,11 @@ namespace Store.Controllers
                 ? "Stock added successfully!"
                 : "Could not add stock.";
 
-            return RedirectToAction("Products");
+            return RedirectToAction("Products", scrollY > 0 ? new { scrollY } : null);
         }
 
         [HttpPost]
-        public IActionResult DeleteProduct(int id)
+        public IActionResult DeleteProduct(int id, int scrollY = 0)
         {
             Store.Models.Store store = HomeController.GetStore();
             bool success = store.DeleteProduct(id);
@@ -87,7 +87,7 @@ namespace Store.Controllers
                 ? "Product deleted successfully!"
                 : "You can only delete products you added.";
 
-            return RedirectToAction("Products");
+            return RedirectToAction("Products", scrollY > 0 ? new { scrollY } : null);
         }
 
         public IActionResult Report()

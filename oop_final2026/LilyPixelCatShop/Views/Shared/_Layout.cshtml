@@ -2,19 +2,26 @@
 <html>
 <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Lily Pixel Cat Shop</title>
 
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 
 <body>
 
     <nav class="navbar">
         <div class="logo">
-            Lily Pixel Cat Shop
+            <span>Lily Pixel Cat Shop</span>
         </div>
 
-        <div class="nav-links">
+        <button type="button" class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <div class="nav-links" id="navLinks">
             <a asp-controller="Home" asp-action="Index">Home</a>
             <a asp-controller="Home" asp-action="AboutLily">About Lily</a>
             <a asp-controller="Store" asp-action="Products">Products</a>
@@ -29,17 +36,67 @@
 
     <footer class="footer">
         <div class="footer-inner">
-            <div class="footer-copy">Made with love and cat hairs. Lily, forever stylish, forever loved.</div>
-            <div class="footer-meta">
-                <span class="footer-tag">Powered by purrs</span>
-                <span class="footer-dot">•</span>
-                <span class="footer-note">Inspired by Lily</span>
-                <span class="footer-heart">♥</span>
-            </div>
+            <div class="footer-signature">Dress Lily</div>
+            <div class="footer-copy">A tiny pixel fashion shop made to remember Lily with love, warmth, and style.</div>
         </div>
     </footer>
 
-    <script src="~/js/store.js"></script>
+    <script src="~/js/store.js" asp-append-version="true"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const root = document.getElementById("pageRoot");
+            if (root) {
+                requestAnimationFrame(function () {
+                    root.classList.add("page-transition-active");
+                });
+            }
+
+            const revealEls = document.querySelectorAll(".reveal, .reveal-left, .reveal-right, .reveal-scale");
+            if (revealEls.length) {
+                const observer = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add("in-view");
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.15 });
+
+                revealEls.forEach(function (el) {
+                    observer.observe(el);
+                });
+            }
+
+            // Mobile nav toggle
+            const navToggle = document.getElementById("navToggle");
+            const navLinks = document.getElementById("navLinks");
+
+            if (navToggle && navLinks) {
+                navToggle.addEventListener("click", function () {
+                    const isOpen = navLinks.classList.toggle("open");
+                    navToggle.classList.toggle("open", isOpen);
+                    navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+                });
+
+                navLinks.querySelectorAll("a").forEach(function (link) {
+                    link.addEventListener("click", function () {
+                        navLinks.classList.remove("open");
+                        navToggle.classList.remove("open");
+                        navToggle.setAttribute("aria-expanded", "false");
+                    });
+                });
+
+                window.addEventListener("resize", function () {
+                    if (window.innerWidth > 900) {
+                        navLinks.classList.remove("open");
+                        navToggle.classList.remove("open");
+                        navToggle.setAttribute("aria-expanded", "false");
+                    }
+                });
+            }
+        });
+    </script>
 
 </body>
 </html>

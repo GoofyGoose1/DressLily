@@ -1,5 +1,102 @@
 let currentIndex = 0;
 
+if ("scrollRestoration" in history) {
+    history.scrollRestoration = "manual";
+}
+
+const scrollKey = "lilyScroll:" + window.location.pathname;
+const formScrollKey = "lilyScroll:afterFormSubmit";
+let scrollSaveQueued = false;
+
+function getScrollFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const scrollY = params.get("scrollY");
+    return scrollY ? Number(scrollY) : null;
+}
+
+function removeScrollFromUrl() {
+    const url = new URL(window.location.href);
+    if (!url.searchParams.has("scrollY")) {
+        return;
+    }
+
+    url.searchParams.delete("scrollY");
+    window.history.replaceState({}, "", url.pathname + url.search + url.hash);
+}
+
+function saveScrollPosition() {
+    sessionStorage.setItem(scrollKey, String(window.scrollY));
+}
+
+function saveFormScrollPosition() {
+    const scrollY = String(window.scrollY);
+    sessionStorage.setItem(scrollKey, scrollY);
+    sessionStorage.setItem(formScrollKey, scrollY);
+}
+
+function queueScrollSave() {
+    if (scrollSaveQueued) {
+        return;
+    }
+
+    scrollSaveQueued = true;
+    requestAnimationFrame(function () {
+        saveScrollPosition();
+        scrollSaveQueued = false;
+    });
+}
+
+function restoreScrollPosition() {
+    const urlScroll = getScrollFromUrl();
+    let savedScroll = urlScroll !== null ? String(urlScroll) : sessionStorage.getItem(scrollKey);
+    const usedFormFallback = urlScroll === null && !savedScroll && sessionStorage.getItem(formScrollKey);
+
+    if (!savedScroll) {
+        savedScroll = sessionStorage.getItem(formScrollKey);
+    }
+
+    if (!savedScroll) {
+        return;
+    }
+
+    const scrollY = Number(savedScroll);
+    if (Number.isNaN(scrollY)) {
+        return;
+    }
+
+    function applySavedScroll() {
+        window.scrollTo(0, scrollY);
+    }
+
+    applySavedScroll();
+    requestAnimationFrame(applySavedScroll);
+    window.addEventListener("load", applySavedScroll, { once: true });
+    setTimeout(applySavedScroll, 80);
+    setTimeout(applySavedScroll, 180);
+    setTimeout(applySavedScroll, 360);
+
+    if (urlScroll !== null) {
+        sessionStorage.setItem(scrollKey, String(scrollY));
+        removeScrollFromUrl();
+    }
+
+    if (usedFormFallback) {
+        sessionStorage.removeItem(formScrollKey);
+    }
+}
+
+function setFormScrollInput(form) {
+    let scrollInput = form.querySelector('input[name="scrollY"]');
+    if (!scrollInput) {
+        scrollInput = document.createElement("input");
+        scrollInput.type = "hidden";
+        scrollInput.name = "scrollY";
+        form.appendChild(scrollInput);
+    }
+
+    scrollInput.value = String(window.scrollY);
+}
+
 function showProduct() {
     if (typeof products === "undefined" || products.length === 0) {
         return;
@@ -13,9 +110,18 @@ function showProduct() {
     const descriptionElement = document.getElementById("productDescription");
     const selectedIdElement = document.getElementById("selectedId");
     const lilyElement = document.getElementById("lilyImage");
+    const counterElement = document.getElementById("productCounter");
+    const moodElement = document.getElementById("previewMood");
+    const productCard = document.getElementById("productCard");
 
     if (!nameElement || !imageElement || !priceElement || !descriptionElement || !selectedIdElement || !lilyElement) {
         return;
+    }
+
+    if (productCard) {
+        productCard.classList.remove("is-changing");
+        void productCard.offsetWidth;
+        productCard.classList.add("is-changing");
     }
 
     nameElement.innerText = product.name;
@@ -30,8 +136,18 @@ function showProduct() {
         imageElement.alt = "";
     }
 
-    priceElement.innerText = "Price: $" + product.price;
-    descriptionElement.innerText = product.description;
+    priceElement.innerText = "$" + product.price;
+    descriptionElement.innerText = product.description || "A tiny wardrobe piece designed for Lily's pixel fashion studio.";
+
+    if (counterElement) {
+        const current = String(currentIndex + 1).padStart(2, "0");
+        const total = String(products.length).padStart(2, "0");
+        counterElement.innerText = current + " / " + total;
+    }
+
+    if (moodElement) {
+        moodElement.innerText = product.name ? "Trying on " + product.name : "Ready for a new look";
+    }
 
     selectedIdElement.value = product.id;
 
@@ -72,6 +188,7 @@ function previousProduct() {
 
 document.addEventListener("DOMContentLoaded", function () {
     showProduct();
+    restoreScrollPosition();
 
     if (localStorage.getItem("catBought") === "true") {
         const lilyElement = document.getElementById("lilyImage");
@@ -84,6 +201,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 localStorage.removeItem("catBought");
             }, 1000);
         }
+    }
+
+    const productCard = document.getElementById("productCard");
+    if (productCard) {
+        productCard.addEventListener("animationend", function () {
+            productCard.classList.remove("is-changing");
+        });
     }
 
     const pageRoot = document.getElementById("pageRoot");
@@ -110,6 +234,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         event.preventDefault();
+        saveScrollPosition();
         if (pageRoot) {
             pageRoot.classList.add("page-transition-exit");
         }
@@ -118,4 +243,14 @@ document.addEventListener("DOMContentLoaded", function () {
             window.location.href = hrefAttr;
         }, 260);
     }, true);
+
+    document.querySelectorAll("form").forEach(function (form) {
+        form.addEventListener("submit", function () {
+            setFormScrollInput(form);
+            saveFormScrollPosition();
+        });
+    });
+
+    document.addEventListener("scroll", queueScrollSave, { passive: true });
+    window.addEventListener("beforeunload", saveScrollPosition);
 });

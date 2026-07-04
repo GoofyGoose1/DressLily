@@ -1,6 +1,12 @@
 ﻿@model List<Product>
 
-<h1>All Products</h1>
+<section class="page-heading reveal">
+    <span class="eyebrow">Wardrobe inventory</span>
+    <h1>All Products</h1>
+    <p>
+        Browse every Lily look, purchase pieces from stock, and restock the boutique when a favorite starts running low.
+    </p>
+</section>
 
 @if (TempData["Message"] != null)
 {
@@ -23,7 +29,7 @@
 <div class="products-grid">
 @foreach (var product in Model)
 {
-    <div class="product-card">
+    <div class="product-card reveal-scale">
 
         @if (!string.IsNullOrEmpty(product.ImageName))
         {
@@ -32,10 +38,10 @@
                 class="product-image" />
         }
 
+        <span class="stock-pill">@product.GetCategory()</span>
         <h3>@product.Name</h3>
-        <p>@product.GetCategory()</p>
-        <p>$@product.Price</p>
-        <p>Stock: @product.Quantity</p>
+        <p class="product-price-line">$@product.Price</p>
+        <p class="product-stock-line">Stock: @product.Quantity</p>
 
         <form asp-action="Buy" method="post">
             <input type="hidden" name="id" value="@product.Id" />
