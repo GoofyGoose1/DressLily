@@ -46,23 +46,23 @@
             shirt.IsDefaultProduct = true;
             products.Add(shirt);
 
-            Product hat = new Hat(GetNextProductId(), "Propellor Hat", 30, 5, "propellorhat.png", "LilyHat.PNG", "Medium", "Pixel Art", "Propellor Hat.");
+            Product hat = new Hat(GetNextProductId(), "Propellor Hat", 30, 5, "propellorhat.PNG", "LilyHat.PNG", "Medium", "Pixel Art", "Propellor Hat.");
             hat.IsDefaultProduct = true;
             products.Add(hat);
 
-            Product overall = new Overall(GetNextProductId(), "Blue Jeans Overall", 45, 4, "overall.png", "LilyOverall.PNG", "Medium", "Pixel Art", "Blue Jeans Overall.");
+            Product overall = new Overall(GetNextProductId(), "Blue Jeans Overall", 45, 4, "overall.PNG", "LilyOverall.PNG", "Medium", "Pixel Art", "Blue Jeans Overall.");
             overall.IsDefaultProduct = true;
             products.Add(overall);
 
-            Product hoodie = new Hoodie(GetNextProductId(), "Cool Pink Hoodie", 50, 3, "hoodie.png", "LilyHoodie.PNG", "Small", "Pixel Art", "Cool Pink Hoodie.");
+            Product hoodie = new Hoodie(GetNextProductId(), "Cool Pink Hoodie", 50, 3, "hoodie.PNG", "LilyHoodie.PNG", "Small", "Pixel Art", "Cool Pink Hoodie.");
             hoodie.IsDefaultProduct = true;
             products.Add(hoodie);
 
-            Product pants = new Pants(GetNextProductId(), "Blue Jeans Pants", 18, 10, "pants.png", "LilyPants.PNG", "Small", "Pixel Art", "Blue Jeans Pants.");
+            Product pants = new Pants(GetNextProductId(), "Blue Jeans Pants", 18, 10, "pants.PNG", "LilyPants.PNG", "Small", "Pixel Art", "Blue Jeans Pants.");
             pants.IsDefaultProduct = true;
             products.Add(pants);
 
-            Product dress = new Dress(GetNextProductId(), "Cute Bunny Dress", 15, 8, "dress.png", "LilyDress.PNG", "Small", "Pixel Art", "Cute Bunny Dress");
+            Product dress = new Dress(GetNextProductId(), "Cute Bunny Dress", 15, 8, "dress.PNG", "LilyDress.PNG", "Small", "Pixel Art", "Cute Bunny Dress");
             dress.IsDefaultProduct = true;
             products.Add(dress);
         }
